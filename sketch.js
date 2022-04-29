@@ -7,6 +7,7 @@ var engine, world, backgroundImg;
 var canvas, angle, tower, ground, cannon, bola;
 
 var bolas = [];
+var barcoss = [];
 
 function preload() {
   backgroundImg = loadImage("./assets/background.gif");
@@ -18,6 +19,7 @@ function setup() {
   engine = Engine.create();
   world = engine.world;
   angleMode(DEGREES);
+  angle = 15;
   var options = {
     isStatic: true,
   };
@@ -28,9 +30,9 @@ function setup() {
   tower = Bodies.rectangle(160, 350, 160, 310, options);
   World.add(world, tower);
 
-  angle = 20;
+
   cannon = new Cannon(180, 110, 130, 100, angle);
-  bola = new Ball(cannon.x, cannon.y);
+
 }
 
 function draw() {
@@ -47,10 +49,11 @@ function draw() {
     bolass(bolas[i])
   }
   cannon.display();
+  sbarcos()
 }
 function keyReleased() {
   if (keyCode === DOWN_ARROW) {
-    bolas[bolas.lenght-1].tiro();
+    bolas[bolas.length-1].tiro();
   }
 }
 function keyPressed() {
@@ -64,5 +67,24 @@ function keyPressed() {
 function bolass (bola){
   if (bola){
     bola.display();
+  }
+}
+function sbarcos (){
+  if  (barcoss.length>0){
+    if(barcoss[barcoss.length-1]==undefined||barcoss[barcoss.length-1].body.position.x<width-300){
+      var pos = [-40,-30,-50,-20];
+      var rand = random(pos)
+      barco = new Barcos(width-79, height-70, 170, 170, rand)
+      barcoss.push(barco)
+    }
+    for(var i=0;i<barcoss.length;i++){
+      if(barcoss[i]){
+        Matter.Body.setVelocity(barcoss[i].body, {x:-0.7,y:0})
+        barcoss.display();    
+      }
+    }
+  }else{
+    barco = new Barcos(width-79, height-70, 170, 170,-60)
+    barcoss.push(barco)
   }
 }
