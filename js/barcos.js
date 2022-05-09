@@ -19,4 +19,10 @@ class Barcos{
         image(this.image,0,this.posbarco,this.w,this.h)
         pop()
 }
+remove (index){
+    setTimeout(() => {
+     Matter.World.remove(world, barcoss[index].body)
+     delete barcos[index]   
+    },2000);
+}
 }

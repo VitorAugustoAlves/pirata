@@ -29,4 +29,11 @@ class Cannon {
     }
 
   }
+  remove (index){
+    Matter.Body.setVelocity(this.body,{x:0,y:0})
+    setTimeout(() => {
+     Matter.World.remove(world, this.body)
+     delete bolas[index]   
+    },1000);
+}
 }
