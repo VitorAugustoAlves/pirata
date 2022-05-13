@@ -7,13 +7,16 @@ class Ball {
       this.body = Bodies.circle(x,y,this.raio,options)
       this.image = loadImage("assets/cannonball.png")
       this.trajeto = []
+      this.speed = 0.05
+      this.animation = [this.image]
+      this.isSinking = false 
       World.add(world,this.body)
  }
  tiro(){
     Matter.Body.setStatic(this.body,false)
     var cangl = cannon.angle - 28
     cangl = cangl*(3.14/180)
-    var veloc = p5.Vector.fromAngle()
+    var veloc = p5.Vector.fromAngle(cangl)
     veloc.mult(0.5)
     Matter.Body.setVelocity(this.body,{x:veloc.x*(180/3.14),y:veloc.y*(180/3.14)})
  }
@@ -31,5 +34,19 @@ class Ball {
       image(this.image,this.trajeto[i][0],this.trajeto[i][1],5,5)
     }
  }
+ remove (index){
+    this.isSinking = true
+   Matter.Body.setVelocity(this.body,{x:0,y:0})
+   this.animation = waterSplashAnimation
+   this.speed = 0.05
+   this.raio = 150
+   setTimeout(() => {
+    Matter.World.remove(world, this.body)
+    delete bolas[index]   
+   },1000);
+}
+animate (){
+   this.speed += 0.05
+}
 }
 
